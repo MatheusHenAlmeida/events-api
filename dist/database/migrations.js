@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 const connection_1 = require("./connection");
 const tsyringe_1 = require("tsyringe");
-require("reflect-metadata");
+const dotenv_1 = require("dotenv");
 /**
  * Create database tables if they don't exist
  */
@@ -52,5 +53,6 @@ async function runMigrations() {
     }
 }
 if (require.main === module) {
+    (0, dotenv_1.config)();
     runMigrations();
 }

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const tsyringe_1 = require("tsyringe");
+const di_dependencies_1 = require("../di/di.dependencies");
 const EventController_1 = require("../controllers/EventController");
 const router = (0, express_1.Router)();
-const eventController = tsyringe_1.container.resolve(EventController_1.EventController);
+const eventController = di_dependencies_1.container.resolve(EventController_1.EventController);
 /**
  * @swagger
  * components:

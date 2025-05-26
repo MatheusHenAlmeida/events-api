@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.container = void 0;
+const tsyringe_1 = require("tsyringe");
+Object.defineProperty(exports, "container", { enumerable: true, get: function () { return tsyringe_1.container; } });
+const EventService_1 = require("../services/EventService");
+const EventRepository_1 = require("../repositories/EventRepository");
+const connection_1 = require("../database/connection");
+const CheckinRepository_1 = require("../repositories/CheckinRepository");
+const EventController_1 = require("../controllers/EventController");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
+tsyringe_1.container.registerSingleton(connection_1.DatabaseConnection);
+tsyringe_1.container.register(EventRepository_1.EventRepository, { useClass: EventRepository_1.EventRepository });
+tsyringe_1.container.register(CheckinRepository_1.CheckinRepository, { useClass: CheckinRepository_1.CheckinRepository });
+tsyringe_1.container.register(EventService_1.EventService, { useClass: EventService_1.EventService });
+tsyringe_1.container.register(EventController_1.EventController, { useClass: EventController_1.EventController });

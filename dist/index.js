@@ -8,17 +8,15 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const dotenv_1 = require("dotenv");
-const tsyringe_1 = require("tsyringe");
 const connection_1 = require("./database/connection");
 const eventRoutes_1 = __importDefault(require("./routes/eventRoutes"));
 const swagger_1 = require("./config/swagger");
+const di_dependencies_1 = require("./di/di.dependencies");
 // Load environment variables
-(0, dotenv_1.config)();
+// config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 // Register database connection in DI container
-tsyringe_1.container.registerSingleton(connection_1.DatabaseConnection);
 // Middleware
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)());
@@ -50,7 +48,7 @@ app.use((err, req, res, next) => {
 async function startServer() {
     try {
         // Test database connection
-        const db = tsyringe_1.container.resolve(connection_1.DatabaseConnection);
+        const db = di_dependencies_1.container.resolve(connection_1.DatabaseConnection);
         await db.query('SELECT NOW()');
         console.log('Database connected successfully');
         app.listen(PORT, () => {
@@ -67,7 +65,7 @@ startServer();
 // Graceful shutdown
 process.on('SIGINT', async () => {
     console.log('Shutting down gracefully...');
-    const db = tsyringe_1.container.resolve(connection_1.DatabaseConnection);
+    const db = di_dependencies_1.container.resolve(connection_1.DatabaseConnection);
     await db.close();
     process.exit(0);
 });
